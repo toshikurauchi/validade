@@ -1,0 +1,22 @@
+databases:
+  - name: validadesitedb
+    plan: free
+    databaseName: validade
+    user: validade
+
+services:
+  - type: web
+    plan: free
+    name: validade
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn validade.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: validadesitedb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
