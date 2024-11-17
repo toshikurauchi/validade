@@ -2,31 +2,18 @@
     class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if is_first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if is_last %}rounded-bl-lg rounded-br-lg{% endif %} shadow">
   <div class="w-full mb-2">
     <div class="flex items-center float-right">
-      <span class="text-sm min-w-max {% if produto.dias_restantes_classe == 'vencido' %} text-red-500 {% elif produto.dias_restantes_classe == 'vence-hoje' %} text-orange-500 {% elif produto.dias_restantes_classe == 'vencendo' %} text-yellow-500 {% else %} text-green-500 {% endif %}">{{ produto.dias_restantes_str }}</span>
-      <a href="{% url 'produto-remover' produto.id %}" class="pl-2">{% include 'core/icons/x-mark.html' %}</a>
+      {% if produto.removido %}
+        <a href="{% url 'produto-restaurar' produto.id %}" class="pl-2">{% include 'core/icons/arrow-path.html' %}</a>
+      {% else %}
+        <span class="text-sm min-w-max {% if produto.dias_restantes_classe == 'vencido' %} text-red-500 {% elif produto.dias_restantes_classe == 'vence-hoje' %} text-orange-500 {% elif produto.dias_restantes_classe == 'vencendo' %} text-yellow-500 {% else %} text-green-500 {% endif %}">{{ produto.dias_restantes_str }}</span>
+        <a href="{% url 'produto-remover' produto.id %}" class="pl-2">{% include 'core/icons/x-mark.html' %}</a>
+      {% endif %}
     </div>
     <span class="font-bold text-lg text-wrap">{{ produto.nome }}</span>
   </div>
-  <div class="inline-flex rounded-md shadow-sm" role="group">
-    <button type="button"
-            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 disabled:bg-gray-200 disabled:text-gray-400"
-            hx-post="{% url 'partial-produto-diminuir' produto_id=produto.id %}?is_first={{ is_first }}&is_last={{ is_last }}"
-            hx-target="#produto--{{ produto.id }}"
-            hx-swap="outerHTML"
-            {% if produto.quantidade == 1 %}disabled{% endif %}>{% include 'core/icons/minus.html' %}</button>
-    <input type="number"
-           class="px-4 py-2 max-w-16 text-sm text-center font-medium text-gray-900 bg-white border-t border-b border-gray-200"
-           name="quantidade"
-           value="{{ produto.quantidade }}"
-           min="1"
-           hx-trigger="change"
-           hx-post="{% url 'partial-produto-quantidade' produto_id=produto.id %}?is_first={{ is_first }}&is_last={{ is_last }}"
-           hx-target="#produto--{{ produto.id }}"
-           hx-swap="outerHTML" />
-    <button type="button"
-            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
-            hx-post="{% url 'partial-produto-aumentar' produto_id=produto.id %}?is_first={{ is_first }}&is_last={{ is_last }}"
-            hx-target="#produto--{{ produto.id }}"
-            hx-swap="outerHTML">{% include 'core/icons/plus.html' %}</button>
-  </div>
+  {% if produto.removido %}
+    <p>{{ produto.removido_ha_str }}</p>
+  {% else %}
+    {% include 'core/partials/form-quantidade.html' %}
+  {% endif %}
 </li>

@@ -23,7 +23,17 @@ def index(request):
     hoje = date.today()
 
     return render(request, 'core/index.html', {
+        'current_page': 'home',
         'hoje': hoje,
+        'produtos': produtos,
+    })
+
+
+def historico(request):
+    produtos = Produto.objects.filter(removido_em__isnull=False).order_by('-removido_em')
+
+    return render(request, 'core/historico.html', {
+        'current_page': 'historico',
         'produtos': produtos,
     })
 
@@ -36,3 +46,13 @@ def remover(request, produto_id):
         produto.save()
 
     return redirect('index')
+
+
+def restaurar(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+
+    if produto.removido:
+        produto.removido_em = None
+        produto.save()
+
+    return redirect('historico')

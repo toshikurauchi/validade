@@ -23,7 +23,9 @@ class Produto(models.Model):
             return 'Vence hoje'
         elif self.dias_restantes == 1:
             return 'Vence amanhã'
-        elif self.dias_restantes < 0:
+        elif self.dias_restantes == -1:
+            return 'Venceu ontem'
+        elif self.dias_restantes < 1:
             s = 's' if abs(self.dias_restantes) > 1 else ''
             return f'Venceu há {abs(self.dias_restantes)} dia{s}'
         else:
@@ -47,5 +49,25 @@ class Produto(models.Model):
 
     @property
     def removido(self):
-        return self.removido_em is not None and self.removido_em < date.today()
+        return self.removido_em is not None
 
+    @property
+    def removido_ha(self):
+        if not hasattr(self, '_removido_a'):
+            self._removido_a = (date.today() - self.removido_em).days
+        return self._removido_a
+
+    @property
+    def removido_ha_str(self):
+        if self.removido_ha == 0:
+            return 'Removido hoje'
+        elif self.removido_ha == 1:
+            return 'Removido ontem'
+        elif self.removido_ha == -1:
+            return 'Removido amanhã'
+        elif self.removido_ha < 1:
+            s = 's' if abs(self.removido_ha) > 1 else ''
+            return f'Removido em {abs(self.removido_ha)} dia{s}'
+        else:
+            s = 's' if self.removido_ha > 1 else ''
+            return f'Removido há {self.removido_ha} dia{s}'

@@ -14,12 +14,10 @@
     <header>
       <nav class="max-w-screen-xl p-4 bg-blue-600">
         <ul class="font-medium flex flex-row space-x-8">
-          <li>
-            <a class="text-white" aria-current="page" href="{% url 'index' %}">Home</a>
-          </li>
-          <li>
-            <a href="#" class="text-blue-100 hover:text-blue-200">About</a>
-          </li>
+          {% url 'index' as index_href %}
+          {% include 'core/components/navlink.html' with page_name='home' href=index_href label='Home' %}
+          {% url 'historico' as historico_href %}
+          {% include 'core/components/navlink.html' with page_name='historico' href=historico_href label='Histórico' %}
         </ul>
       </nav>
     </header>
