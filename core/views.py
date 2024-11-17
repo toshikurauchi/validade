@@ -1,7 +1,7 @@
 from datetime import date
 from django.shortcuts import get_object_or_404, redirect, render
 
-from core.models import Produto
+from core.models import Produto, Tag
 
 
 def index(request):
@@ -56,3 +56,27 @@ def restaurar(request, produto_id):
         produto.save()
 
     return redirect('historico')
+
+
+def lista_tags(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+
+        if nome:
+            Tag.objects.create(nome=nome)
+
+        return redirect('tags')
+
+    tags = Tag.objects.all()
+
+    return render(request, 'core/tags.html', {
+        'current_page': 'tags',
+        'tags': tags,
+    })
+
+
+def deleta_tag(request, tag_id):
+    tag = get_object_or_404(Tag, pk=tag_id)
+    tag.delete()
+
+    return redirect('tags')

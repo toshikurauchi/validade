@@ -7,6 +7,8 @@ class Produto(models.Model):
     validade = models.DateField(default=date.today)
     quantidade = models.IntegerField(default=1)
     removido_em = models.DateField(blank=True, null=True)
+    congelado = models.BooleanField(default=False)
+    tags = models.ManyToManyField('Tag', blank=True)
 
     def __str__(self):
         return self.nome
@@ -71,3 +73,10 @@ class Produto(models.Model):
         else:
             s = 's' if self.removido_ha > 1 else ''
             return f'Removido há {self.removido_ha} dia{s}'
+
+
+class Tag(models.Model):
+    nome = models.CharField(max_length=512)
+
+    def __str__(self):
+        return self.nome

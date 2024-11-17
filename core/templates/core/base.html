@@ -18,6 +18,8 @@
           {% include 'core/components/navlink.html' with page_name='home' href=index_href label='Home' %}
           {% url 'historico' as historico_href %}
           {% include 'core/components/navlink.html' with page_name='historico' href=historico_href label='Histórico' %}
+          {% url 'tags' as tags_href %}
+          {% include 'core/components/navlink.html' with page_name='tags' href=tags_href label='Tags' %}
         </ul>
       </nav>
     </header>

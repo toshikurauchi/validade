@@ -1,0 +1,8 @@
+<form action="{% url 'tags' %}" method="post" class="max-w-sm mx-auto">
+  {% csrf_token %}
+  {% include 'core/components/label.html' with labelFor="nome" texto="Nome" %}
+  <div class="flex gap-2">
+    {% include 'core/components/input.html' with type="text" id="nome" name="nome" required=true %}
+    <div class="flex justify-end">{% include 'core/components/button.html' with type="submit" texto="Adicionar" %}</div>
+  </div>
+</form>

@@ -1,5 +1,5 @@
 {% extends "core/base.html" %}
 {% block content %}
-    <h1 class="text-2xl font-bold">Histórico</h1>
+    {% include 'core/components/h1.html' with texto="Histórico" %}
     {% include 'core/partials/lista-produtos.html' %}
 {% endblock content %}
