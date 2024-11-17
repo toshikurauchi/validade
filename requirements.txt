@@ -1,0 +1,8 @@
+Brotli==1.1
+dj-database-url==2.3
+Django==5.1
+djlint==1.36.1
+gunicorn==23.0.0
+psycopg2-binary==2.9.10
+uvicorn==0.32.0
+whitenoise==6.8

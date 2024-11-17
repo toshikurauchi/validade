@@ -1,0 +1,9 @@
+{% if produtos %}
+  <section class="my-6">
+    <ul>
+      {% for produto in produtos %}
+        {% include 'core/partials/produto.html' with is_first=forloop.first is_last=forloop.last %}
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}

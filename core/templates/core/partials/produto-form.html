@@ -1,0 +1,20 @@
+<form action="{% url 'index' %}"
+      method="post"
+      class="max-w-sm mx-auto space-y-2">
+  {% csrf_token %}
+  <div>
+    {% include 'core/components/label.html' with labelFor="nome" texto="Nome" %}
+    {% include 'core/components/input.html' with type="text" id="nome" name="nome" required=true %}
+  </div>
+  <div class="flex gap-2">
+    <div>
+      {% include 'core/components/label.html' with labelFor="validade" texto="Validade" %}
+      {% include 'core/components/input.html' with type="date" id="validade" name="validade" required=true %}
+    </div>
+    <div>
+      {% include 'core/components/label.html' with labelFor="quantidade" texto="Quantidade" %}
+      {% include 'core/components/input.html' with type="number" id="quantidade" name="quantidade" value="1" required=true %}
+    </div>
+  </div>
+  <div class="flex justify-end">{% include 'core/components/button.html' with type="submit" texto="Adicionar" %}</div>
+</form>

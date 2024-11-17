@@ -1,0 +1,6 @@
+{% extends "core/base.html" %}
+{% block content %}
+    <h1 class="text-2xl font-bold">Controle {{ hoje|date:"d/m/Y" }}</h1>
+    <div class="pb-6 border-b">{% include 'core/partials/produto-form.html' %}</div>
+    {% include 'core/partials/lista-produtos.html' %}
+{% endblock content %}
