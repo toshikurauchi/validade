@@ -5,7 +5,8 @@ from core import partial_views
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.lista_produtos, name='lista-produtos'),
+    path('produto', views.cadastro, name='cadastro'),
     path('tags', views.lista_tags, name='tags'),
     path('tags/<int:tag_id>', views.lista_tags, name='tag-editar'),
     path('tags/<int:tag_id>/remover', views.deleta_tag, name='tag-remover'),

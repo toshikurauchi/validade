@@ -1,4 +1,7 @@
-<li>
-  <a {% if current_page == page_name %} class="text-white" aria-current="page" {% else %} class="text-blue-100 hover:text-blue-200" {% endif %}
-     href="{{ href }}">{{ label }}</a>
-</li>
+<a {% if current_page == page_name %} class="text-white" aria-current="page" {% else %} class="text-blue-100 hover:text-blue-200" {% endif %}
+   href="{{ href }}">
+  {% if label %}{{ label }}{% endif %}
+  {% if icon %}
+    {% include icon %}
+  {% endif %}
+</a>

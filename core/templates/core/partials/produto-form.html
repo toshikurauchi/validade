@@ -1,8 +1,9 @@
 <form id="{{ produto.id|default:'main-form' }}"
-      action="{% url 'index' %}"
+      action="{% url 'cadastro' %}"
       method="post"
       class="max-w-sm mx-auto space-y-2">
   {% csrf_token %}
+  <input type="hidden" name="origem" value="{{ origem }}">
   {% if produto.id %}<input type="hidden" name="produto_id" value="{{ produto.id }}">{% endif %}
   <div>
     {% include 'core/components/label.html' with labelFor="nome" texto="Nome" %}

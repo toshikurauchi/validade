@@ -13,13 +13,17 @@
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
     <header>
       <nav class="max-w-screen-xl p-4 bg-blue-600">
-        <ul class="font-medium flex flex-row space-x-8">
-          {% url 'index' as index_href %}
-          {% include 'core/components/navlink.html' with page_name='home' href=index_href label='Home' %}
-          {% url 'historico' as historico_href %}
-          {% include 'core/components/navlink.html' with page_name='historico' href=historico_href label='Histórico' %}
+        <ul class="w-full font-medium flex flex-row gap-4">
+          <li>{% include 'core/components/navlink.html' with page_name='produtos' href='/' label='Produtos' %}</li>
+          {% url 'cadastro' as cadastro_href %}
+          <li>{% include 'core/components/navlink.html' with page_name='cadastro' href=cadastro_href label='Cadastro' %}</li>
           {% url 'tags' as tags_href %}
-          {% include 'core/components/navlink.html' with page_name='tags' href=tags_href label='Tags' %}
+          <li class="flex-grow"></li>
+          <li>{% include 'core/components/navlink.html' with page_name='tags' href=tags_href icon='core/icons/tag.html' %}</li>
+          {% url 'historico' as historico_href %}
+          <li>
+            {% include 'core/components/navlink.html' with page_name='historico' href=historico_href icon='core/icons/archive-box.html' %}
+          </li>
         </ul>
       </nav>
     </header>

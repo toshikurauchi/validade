@@ -5,8 +5,9 @@ from core.models import Produto
 
 def produto_edit(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
+    origem = request.GET.get('origem')
 
-    return render(request, 'core/partials/produto-form.html', {'produto': produto})
+    return render(request, 'core/partials/produto-form.html', {'produto': produto, 'origem': origem})
 
 
 def define_quantidade(request, produto_id):

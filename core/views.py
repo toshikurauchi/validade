@@ -4,12 +4,23 @@ from django.shortcuts import get_object_or_404, redirect, render
 from core.models import Produto, Tag
 
 
-def index(request):
+def lista_produtos(request):
+    produtos = Produto.objects.filter(removido_em__isnull=True).order_by('validade')
+
+    return render(request, 'core/produtos.html', {
+        'current_page': 'produtos',
+        'produtos': produtos,
+        'tags': Tag.objects.all(),
+    })
+
+
+def cadastro(request):
     if request.method == 'POST':
         produto_id = request.POST.get('produto_id')
         nome = request.POST.get('nome')
         validade = request.POST.get('validade')
         quantidade = request.POST.get('quantidade')
+        origem = request.POST.get('origem')
         tags = []
 
         tag_i = 0
@@ -28,7 +39,7 @@ def index(request):
                 produto.validade = validade
                 produto.quantidade = quantidade
             else:
-                produto = Produto(
+                produto = Produto.objects.create(
                     nome=nome,
                     validade=validade,
                     quantidade=quantidade,
@@ -36,15 +47,10 @@ def index(request):
             produto.tags.set(tags)
             produto.save()
 
-        return redirect('index')
+        return redirect(origem)
 
-    produtos = Produto.objects.filter(removido_em__isnull=True).order_by('validade')
-    hoje = date.today()
-
-    return render(request, 'core/index.html', {
-        'current_page': 'home',
-        'hoje': hoje,
-        'produtos': produtos,
+    return render(request, 'core/cadastro.html', {
+        'current_page': 'cadastro',
         'tags': Tag.objects.all(),
     })
 
@@ -65,7 +71,7 @@ def remover(request, produto_id):
         produto.removido_em = date.today()
         produto.save()
 
-    return redirect('index')
+    return redirect('lista-produtos')
 
 
 def restaurar(request, produto_id):
