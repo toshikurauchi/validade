@@ -1,0 +1,14 @@
+{% load static %}
+<script>
+    var COR_FUNDO = {
+      {% for tag in tags %}
+      "{{ tag.nome }}": "{{ tag.cor_fundo }}",
+      {% endfor %}
+    };
+    var COR_TEXTO = {
+      {% for tag in tags %}
+      "{{ tag.nome }}": "{{ tag.cor_texto }}",
+      {% endfor %}
+    };
+</script>
+<script src="{% static 'js/produto-form.js' %}"></script>
