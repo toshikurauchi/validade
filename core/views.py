@@ -6,6 +6,7 @@ from core.models import Produto, Tag
 
 def index(request):
     if request.method == 'POST':
+        produto_id = request.POST.get('produto_id')
         nome = request.POST.get('nome')
         validade = request.POST.get('validade')
         quantidade = request.POST.get('quantidade')
@@ -21,11 +22,19 @@ def index(request):
                 break
 
         if nome and validade:
-            Produto.objects.create(
-                nome=nome,
-                validade=validade,
-                quantidade=quantidade,
-            ).tags.set(tags)
+            if produto_id:
+                produto = get_object_or_404(Produto, pk=produto_id)
+                produto.nome = nome
+                produto.validade = validade
+                produto.quantidade = quantidade
+            else:
+                produto = Produto(
+                    nome=nome,
+                    validade=validade,
+                    quantidade=quantidade,
+                )
+            produto.tags.set(tags)
+            produto.save()
 
         return redirect('index')
 

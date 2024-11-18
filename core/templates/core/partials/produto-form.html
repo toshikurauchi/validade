@@ -3,6 +3,7 @@
       method="post"
       class="max-w-sm mx-auto space-y-2">
   {% csrf_token %}
+  {% if produto.id %}<input type="hidden" name="produto_id" value="{{ produto.id }}">{% endif %}
   <div>
     {% include 'core/components/label.html' with labelFor="nome" texto="Nome" %}
     {% include 'core/components/input.html' with type="text" id="nome" name="nome" value=produto.nome required=true %}
@@ -40,6 +41,12 @@
       {% endfor %}
     </div>
   </div>
-  <div class="flex justify-end">{% include 'core/components/button.html' with type="submit" texto="Adicionar" %}</div>
+  <div class="flex justify-end">
+    {% if produto.id %}
+      {% include 'core/components/button.html' with type="submit" texto="Salvar" %}
+    {% else %}
+      {% include 'core/components/button.html' with type="submit" texto="Adicionar" %}
+    {% endif %}
+  </div>
   <script>initProductForm(document.getElementById('{{ produto.id|default:'main-form' }}'));</script>
 </form>

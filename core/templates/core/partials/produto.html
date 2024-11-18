@@ -1,6 +1,6 @@
 <li id="produto--{{ produto.id }}"
-    class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if is_first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if is_last %}rounded-bl-lg rounded-br-lg{% endif %} shadow space-y-2">
-  <div class="w-full mb-2">
+    class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if is_first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if is_last %}rounded-bl-lg rounded-br-lg{% endif %} shadow">
+  <div class="w-full">
     <div class="flex items-center float-right">
       {% if produto.removido %}
         <a href="{% url 'produto-restaurar' produto.id %}" class="pl-2">{% include 'core/icons/arrow-path.html' %}</a>
@@ -15,16 +15,16 @@
     </div>
     <span class="font-bold text-lg text-wrap">{{ produto.nome }}</span>
   </div>
-  {% if produto.removido %}
-    <p>{{ produto.removido_ha_str }}</p>
-  {% else %}
-    {% include 'core/partials/form-quantidade.html' %}
-  {% endif %}
-  <div class="flex gap-1">
+  <div class="flex gap-1 mb-2">
     {% for tag in produto.tags.all %}
       <span class="px-2 py-1 text-xs rounded"
             style="background-color: {{ tag.cor_fundo }};
                    color: {{ tag.cor_texto }}">{{ tag.nome }}</span>
     {% endfor %}
   </div>
+  {% if produto.removido %}
+    <p>{{ produto.removido_ha_str }}</p>
+  {% else %}
+    {% include 'core/partials/form-quantidade.html' %}
+  {% endif %}
 </li>
