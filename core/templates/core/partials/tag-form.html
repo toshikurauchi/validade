@@ -1,8 +1,32 @@
-<form action="{% url 'tags' %}" method="post" class="max-w-sm mx-auto">
+<form action="{% url 'tags' %}"
+      method="post"
+      class="max-w-sm mx-auto space-y-2">
   {% csrf_token %}
-  {% include 'core/components/label.html' with labelFor="nome" texto="Nome" %}
-  <div class="flex gap-2">
+  <div>
+    {% include 'core/components/label.html' with labelFor="nome" texto="Nome" %}
     {% include 'core/components/input.html' with type="text" id="nome" name="nome" required=true %}
-    <div class="flex justify-end">{% include 'core/components/button.html' with type="submit" texto="Adicionar" %}</div>
   </div>
+  <div class="flex gap-2">
+    <div class="flex flex-col">
+      {% include 'core/components/label.html' with labelFor="cor_fundo" texto="Cor de fundo" %}
+      <input type="color"
+             id="cor_fundo"
+             name="cor_fundo"
+             class="flex-grow rounded-lg border border-gray-300 min-h-10"
+             value="#1D4ED8"
+             {% if value %}value="{{ value }}"{% endif %}
+             {% if required %}required{% endif %}>
+    </div>
+    <div class="flex flex-col">
+      {% include 'core/components/label.html' with labelFor="cor_texto" texto="Cor do texto" %}
+      <input type="color"
+             id="cor_texto"
+             name="cor_texto"
+             class="flex-grow rounded-lg border border-gray-300 min-h-10"
+             value="#FFFFFF"
+             {% if value %}value="{{ value }}"{% endif %}
+             {% if required %}required{% endif %}>
+    </div>
+  </div>
+  <div class="flex justify-end">{% include 'core/components/button.html' with type="submit" texto="Adicionar" %}</div>
 </form>

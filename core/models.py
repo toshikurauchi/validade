@@ -76,7 +76,9 @@ class Produto(models.Model):
 
 
 class Tag(models.Model):
-    nome = models.CharField(max_length=512)
+    nome = models.CharField(max_length=512, unique=True)
+    cor_fundo = models.CharField(max_length=7, default='#000000')
+    cor_texto = models.CharField(max_length=7, default='#ffffff')
 
     def __str__(self):
         return self.nome

@@ -1,5 +1,5 @@
 <li id="produto--{{ produto.id }}"
-    class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if is_first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if is_last %}rounded-bl-lg rounded-br-lg{% endif %} shadow">
+    class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if is_first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if is_last %}rounded-bl-lg rounded-br-lg{% endif %} shadow space-y-2">
   <div class="w-full mb-2">
     <div class="flex items-center float-right">
       {% if produto.removido %}
@@ -16,4 +16,11 @@
   {% else %}
     {% include 'core/partials/form-quantidade.html' %}
   {% endif %}
+  <div class="flex gap-1">
+    {% for tag in produto.tags.all %}
+      <span class="px-2 py-1 text-xs rounded"
+            style="background-color: {{ tag.cor_fundo }};
+                   color: {{ tag.cor_texto }}">{{ tag.nome }}</span>
+    {% endfor %}
+  </div>
 </li>

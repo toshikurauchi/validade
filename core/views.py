@@ -9,13 +9,23 @@ def index(request):
         nome = request.POST.get('nome')
         validade = request.POST.get('validade')
         quantidade = request.POST.get('quantidade')
+        tags = []
+
+        tag_i = 0
+        while True:
+            tag = request.POST.get(f'tag-{tag_i}')
+            if tag:
+                tags.append(get_object_or_404(Tag, nome=tag))
+                tag_i += 1
+            else:
+                break
 
         if nome and validade:
             Produto.objects.create(
                 nome=nome,
                 validade=validade,
                 quantidade=quantidade,
-            )
+            ).tags.set(tags)
 
         return redirect('index')
 
@@ -26,6 +36,7 @@ def index(request):
         'current_page': 'home',
         'hoje': hoje,
         'produtos': produtos,
+        'tags': Tag.objects.all(),
     })
 
 
@@ -61,9 +72,11 @@ def restaurar(request, produto_id):
 def lista_tags(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
+        cor_fundo = request.POST.get('cor_fundo')
+        cor_texto = request.POST.get('cor_texto')
 
         if nome:
-            Tag.objects.create(nome=nome)
+            Tag.objects.create(nome=nome, cor_fundo=cor_fundo, cor_texto=cor_texto)
 
         return redirect('tags')
 

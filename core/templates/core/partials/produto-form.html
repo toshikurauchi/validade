@@ -1,3 +1,4 @@
+{% load static %}
 <form action="{% url 'index' %}"
       method="post"
       class="max-w-sm mx-auto space-y-2">
@@ -16,5 +17,29 @@
       {% include 'core/components/input.html' with type="number" id="quantidade" name="quantidade" value="1" required=true %}
     </div>
   </div>
+  <div>
+    {% include 'core/components/label.html' with labelFor="tags-input" texto="Tags" %}
+    <input type="text"
+           id="tags-input"
+           name="tags"
+           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+           list="tags"
+           hx-trigger="change">
+    <div id="selected-tags" class="flex my-2 gap-1"></div>
+    <div id="selected-tags-hidden-inputs"></div>
+  </div>
   <div class="flex justify-end">{% include 'core/components/button.html' with type="submit" texto="Adicionar" %}</div>
+  <script>
+    var COR_FUNDO = {
+      {% for tag in tags %}
+      "{{ tag.nome }}": "{{ tag.cor_fundo }}",
+      {% endfor %}
+    };
+    var COR_TEXTO = {
+      {% for tag in tags %}
+      "{{ tag.nome }}": "{{ tag.cor_texto }}",
+      {% endfor %}
+    };
+  </script>
+  <script src="{% static 'js/produto-form.js' %}"></script>
 </form>
