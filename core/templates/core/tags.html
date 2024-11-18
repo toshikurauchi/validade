@@ -10,6 +10,7 @@
                         style="background-color: {{ tag.cor_fundo }};
                                color: {{ tag.cor_texto }}">
                         {{ tag.nome }}
+                        <a href="{% url 'tag-editar' tag.id %}" class="ml-4">{% include 'core/icons/pencil-square.html' %}</a>
                         <form action="{% url 'tag-remover' tag.id %}"
                               method="post"
                               class="flex items-center">

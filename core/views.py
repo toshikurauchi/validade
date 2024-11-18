@@ -69,14 +69,24 @@ def restaurar(request, produto_id):
     return redirect('historico')
 
 
-def lista_tags(request):
+def lista_tags(request, tag_id=None):
+    tag = None
+    if tag_id:
+        tag = Tag.objects.get(pk=tag_id)
+
     if request.method == 'POST':
         nome = request.POST.get('nome')
         cor_fundo = request.POST.get('cor_fundo')
         cor_texto = request.POST.get('cor_texto')
 
         if nome:
-            Tag.objects.create(nome=nome, cor_fundo=cor_fundo, cor_texto=cor_texto)
+            if tag:
+                tag.nome = nome
+                tag.cor_fundo = cor_fundo
+                tag.cor_texto = cor_texto
+            else:
+                tag = Tag(nome=nome, cor_fundo=cor_fundo, cor_texto=cor_texto)
+            tag.save()
 
         return redirect('tags')
 
@@ -85,6 +95,7 @@ def lista_tags(request):
     return render(request, 'core/tags.html', {
         'current_page': 'tags',
         'tags': tags,
+        'tag': tag,
     })
 
 

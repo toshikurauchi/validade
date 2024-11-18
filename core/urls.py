@@ -7,7 +7,8 @@ from core import partial_views
 urlpatterns = [
     path('', views.index, name='index'),
     path('tags', views.lista_tags, name='tags'),
-    path('tag/<int:tag_id>', views.deleta_tag, name='tag-remover'),
+    path('tags/<int:tag_id>', views.lista_tags, name='tag-editar'),
+    path('tags/<int:tag_id>/remover', views.deleta_tag, name='tag-remover'),
     path('historico', views.historico, name='historico'),
     path('produto/<int:produto_id>/remover', views.remover, name='produto-remover'),
     path('produto/<int:produto_id>/restaurar', views.restaurar, name='produto-restaurar'),
