@@ -3,6 +3,12 @@ from django.shortcuts import get_object_or_404, render
 from core.models import Produto
 
 
+def produto_edit(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+
+    return render(request, 'core/partials/produto-form.html', {'produto': produto})
+
+
 def define_quantidade(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
 

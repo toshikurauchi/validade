@@ -1,5 +1,19 @@
 {% extends "core/base.html" %}
+{% load static %}
 {% block content %}
+    <script>
+    var COR_FUNDO = {
+      {% for tag in tags %}
+      "{{ tag.nome }}": "{{ tag.cor_fundo }}",
+      {% endfor %}
+    };
+    var COR_TEXTO = {
+      {% for tag in tags %}
+      "{{ tag.nome }}": "{{ tag.cor_texto }}",
+      {% endfor %}
+    };
+    </script>
+    <script src="{% static 'js/produto-form.js' %}"></script>
     {% with hoje_str=hoje|date:"d/m/Y" %}
         {% with "Controle "|add:hoje_str as texto %}
             {% include 'core/components/h1.html' %}

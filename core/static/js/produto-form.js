@@ -1,40 +1,50 @@
-const tagsInput = document.getElementById("tags-input");
-const selectedTagsContainer = document.getElementById("selected-tags");
-const selectedTagsHiddenInputsContainer = document.getElementById(
-  "selected-tags-hidden-inputs"
-);
+function initProductForm(container) {
+  const selectedTags = [];
 
-function updateSelectedTagsHiddenInputs() {
-  selectedTagsHiddenInputsContainer.innerHTML = selectedTags
-    .map((tag, index) => {
-      return `<input type="hidden" name="tag-${index}" value="${tag}">`;
-    })
-    .join("\n");
-}
+  const tagsInput = container.querySelector("#tags-input");
+  const selectedTagsContainer = container.querySelector("#selected-tags");
+  const selectedTagsHiddenInputsContainer = container.querySelector(
+    "#selected-tags-hidden-inputs"
+  );
 
-const selectedTags = [];
-tagsInput.addEventListener("change", function (event) {
-  const tag = event.target.value;
-  if (!tag || selectedTags.includes(tag)) {
-    tagsInput.value = "";
-    return;
+  function updateSelectedTagsHiddenInputs() {
+    selectedTagsHiddenInputsContainer.innerHTML = selectedTags
+      .map((tag, index) => {
+        return `<input type="hidden" name="tag-${index}" value="${tag}">`;
+      })
+      .join("\n");
   }
 
-  const tagElement = document.createElement("span");
-  tagElement.classList.add("px-2", "py-1", "rounded");
-  tagElement.style.backgroundColor = COR_FUNDO[tag];
-  tagElement.style.color = COR_TEXTO[tag];
-  tagElement.textContent = tag;
-  tagElement.addEventListener("click", function () {
-    selectedTags.splice(selectedTags.indexOf(tag), 1);
+  function handleTagClick(event) {
+    selectedTags.splice(selectedTags.indexOf(event.target.innerText), 1);
     updateSelectedTagsHiddenInputs();
-    selectedTagsContainer.removeChild(tagElement);
+    selectedTagsContainer.removeChild(event.target);
+  }
+
+  selectedTagsContainer.querySelectorAll("span").forEach((tagElement) => {
+    selectedTags.push(tagElement.innerText);
+    tagElement.addEventListener("click", handleTagClick);
   });
 
-  selectedTagsContainer.appendChild(tagElement);
-  selectedTags.push(tag);
+  tagsInput.addEventListener("change", function (event) {
+    const tag = event.target.value;
+    if (!tag || selectedTags.includes(tag)) {
+      tagsInput.value = "";
+      return;
+    }
 
-  updateSelectedTagsHiddenInputs();
+    const tagElement = document.createElement("span");
+    tagElement.classList.add("px-2", "py-1", "rounded");
+    tagElement.style.backgroundColor = COR_FUNDO[tag];
+    tagElement.style.color = COR_TEXTO[tag];
+    tagElement.textContent = tag;
+    tagElement.addEventListener("click", handleTagClick);
 
-  tagsInput.value = "";
-});
+    selectedTagsContainer.appendChild(tagElement);
+    selectedTags.push(tag);
+
+    updateSelectedTagsHiddenInputs();
+
+    tagsInput.value = "";
+  });
+}

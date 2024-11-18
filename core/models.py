@@ -14,6 +14,10 @@ class Produto(models.Model):
         return self.nome
 
     @property
+    def validade_serialized(self):
+        return self.validade.strftime('%Y-%m-%d')
+
+    @property
     def dias_restantes(self):
         if not hasattr(self, '_dias_restantes'):
             self._dias_restantes = (self.validade - date.today()).days
