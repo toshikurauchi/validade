@@ -2,7 +2,10 @@
   {% if produtos %}
     <ul>
       {% for produto in produtos %}
-        {% include 'core/partials/produto.html' with is_first=forloop.first is_last=forloop.last %}
+        <li id="produto--{{ produto.id }}"
+            class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if forloop.first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if forloop.last %}rounded-bl-lg rounded-br-lg{% endif %} shadow">
+          {% include 'core/partials/produto.html' %}
+        </li>
       {% endfor %}
     </ul>
   {% else %}

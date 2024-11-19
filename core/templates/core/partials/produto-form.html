@@ -1,6 +1,5 @@
-<form id="{{ produto.id|default:'main-form' }}"
-      action="{% url 'cadastro' %}"
-      method="post"
+<form id="{{ produto.id|default:'main' }}-form"
+      {% if produto.id %} hx-post="{% url 'partial-produto-editar' produto.id %}" hx-target="#produto--{{ produto.id }}" {% else %} action="{% url 'cadastro' %}" method="post" {% endif %}
       class="max-w-sm mx-auto space-y-2">
   {% csrf_token %}
   <input type="hidden" name="origem" value="{{ origem }}">
@@ -27,7 +26,7 @@
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
            list="tags"
            hx-trigger="change">
-    <div id="selected-tags" class="flex my-2 gap-1">
+    <div id="selected-tags" class="flex flex-wrap my-2 gap-1">
       {% for tag in produto.tags.all %}
         <span class="px-2 py-1 rounded"
               style="background-color: {{ tag.cor_fundo }};
@@ -42,12 +41,15 @@
       {% endfor %}
     </div>
   </div>
-  <div class="flex justify-end">
+  <div class="flex justify-end gap-1">
     {% if produto.id %}
+      <button class="border border-blue-800 hover:border-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+              hx-get="{% url 'partial-produto' produto.id %}"
+              hx-target="#produto--{{ produto.id }}">Cancelar</button>
       {% include 'core/components/button.html' with type="submit" texto="Salvar" %}
     {% else %}
       {% include 'core/components/button.html' with type="submit" texto="Adicionar" %}
     {% endif %}
   </div>
-  <script>initProductForm(document.getElementById('{{ produto.id|default:'main-form' }}'));</script>
+  <script>initProductForm(document.getElementById('{{ produto.id|default:'main' }}-form'));</script>
 </form>

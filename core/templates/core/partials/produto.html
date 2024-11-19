@@ -1,30 +1,27 @@
-<li id="produto--{{ produto.id }}"
-    class="flex flex-col max-w-full px-4 py-2 bg-white border border-gray-200 {% if is_first %}rounded-tl-lg rounded-tr-lg{% endif %} {% if is_last %}rounded-bl-lg rounded-br-lg{% endif %} shadow">
-  <div class="w-full">
-    <div class="flex items-center float-right">
-      {% if produto.removido %}
-        <a href="{% url 'produto-restaurar' produto.id %}" class="pl-2">{% include 'core/icons/arrow-path.html' %}</a>
-      {% else %}
-        <span class="text-sm min-w-max {% if produto.dias_restantes_classe == 'vencido' %} text-red-500 {% elif produto.dias_restantes_classe == 'vence-hoje' %} text-orange-500 {% elif produto.dias_restantes_classe == 'vencendo' %} text-yellow-500 {% else %} text-green-500 {% endif %}">{{ produto.dias_restantes_str }}</span>
-        <button class="pl-2"
-                hx-trigger="click"
-                hx-get="{% url 'partial-produto-editar' produto.id %}?origem=lista-produtos"
-                hx-target="#produto--{{ produto.id }}">{% include 'core/icons/pencil-square.html' %}</button>
-        <a href="{% url 'produto-remover' produto.id %}" class="pl-2">{% include 'core/icons/x-mark.html' %}</a>
-      {% endif %}
-    </div>
-    <span class="font-bold text-lg text-wrap">{{ produto.nome }}</span>
+<div class="w-full">
+  <div class="flex items-center float-right">
+    {% if produto.removido %}
+      <a href="{% url 'produto-restaurar' produto.id %}" class="pl-2">{% include 'core/icons/arrow-path.html' %}</a>
+    {% else %}
+      <span class="text-sm min-w-max {% if produto.dias_restantes_classe == 'vencido' %} text-red-500 {% elif produto.dias_restantes_classe == 'vence-hoje' %} text-orange-500 {% elif produto.dias_restantes_classe == 'vencendo' %} text-yellow-500 {% else %} text-green-500 {% endif %}">{{ produto.dias_restantes_str }}</span>
+      <button class="pl-2"
+              hx-trigger="click"
+              hx-get="{% url 'partial-produto-editar' produto.id %}?origem=lista-produtos"
+              hx-target="#produto--{{ produto.id }}">{% include 'core/icons/pencil-square.html' %}</button>
+      <a href="{% url 'produto-remover' produto.id %}" class="pl-2">{% include 'core/icons/x-mark.html' %}</a>
+    {% endif %}
   </div>
-  <div class="flex gap-1 mb-2">
-    {% for tag in produto.tags.all %}
-      <span class="px-2 py-1 text-xs rounded"
-            style="background-color: {{ tag.cor_fundo }};
-                   color: {{ tag.cor_texto }}">{{ tag.nome }}</span>
-    {% endfor %}
-  </div>
-  {% if produto.removido %}
-    <p>{{ produto.removido_ha_str }}</p>
-  {% else %}
-    {% include 'core/partials/form-quantidade.html' %}
-  {% endif %}
-</li>
+  <span class="font-bold text-lg text-wrap">{{ produto.nome }}</span>
+</div>
+<div class="flex flex-wrap gap-1 mb-2">
+  {% for tag in produto.tags.all %}
+    <span class="px-2 py-1 text-xs rounded"
+          style="background-color: {{ tag.cor_fundo }};
+                 color: {{ tag.cor_texto }}">{{ tag.nome }}</span>
+  {% endfor %}
+</div>
+{% if produto.removido %}
+  <p>{{ produto.removido_ha_str }}</p>
+{% else %}
+  {% include 'core/partials/form-quantidade.html' %}
+{% endif %}

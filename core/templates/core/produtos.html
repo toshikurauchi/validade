@@ -14,7 +14,7 @@
            hx-get="{% url 'partial-produtos' %}"
            hx-on::after-request="atualizaQueryString();"
            hx-target="#lista-de-produtos-container">
-    <ul id="tags-filtragem" class="flex gap-1">
+    <ul id="tags-filtragem" class="flex flex-wrap gap-1">
       {% for tag in tags %}
         <li>
           <input type="checkbox"
