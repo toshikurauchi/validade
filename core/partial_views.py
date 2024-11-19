@@ -5,7 +5,7 @@ from core.view_utils import produtos_filtrados
 
 
 def lista_produtos(request):
-    produtos = produtos_filtrados(request)
+    produtos, _ = produtos_filtrados(request)
 
     return render(request, 'core/partials/lista-produtos.html', {
         'current_page': 'produtos',

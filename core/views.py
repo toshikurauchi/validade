@@ -6,9 +6,11 @@ from core.view_utils import produtos_filtrados
 
 
 def lista_produtos(request):
-    produtos = produtos_filtrados(request)
+    produtos, tags = produtos_filtrados(request)
 
     return render(request, 'core/produtos.html', {
+        'q': request.GET.get('q', ''),
+        'tags_selecionadas': tags,
         'current_page': 'produtos',
         'produtos': produtos,
         'tags': Tag.objects.all(),

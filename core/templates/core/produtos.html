@@ -1,15 +1,50 @@
 {% extends "core/base.html" %}
+{% load static %}
 {% block content %}
+  <script src="{% static 'js/query-produtos.js' %}"></script>
   {% include 'core/partials/tag-scripts.html' %}
   {% include 'core/partials/tag-datalist.html' %}
-  <div class="pb-6 border-b">
+  <div id="opcoes-filtragem" class="pb-6 border-b space-y-1">
     <input type="search"
            name="q"
            id="busca"
+           value="{{ q }}"
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
            hx-trigger="keyup changed delay:500ms"
            hx-get="{% url 'partial-produtos' %}"
+           hx-on::after-request="atualizaQueryString();"
            hx-target="#lista-de-produtos-container">
+    <ul id="tags-filtragem" class="flex gap-1">
+      {% for tag in tags %}
+        <li>
+          <input type="checkbox"
+                 id="tag--{{ tag.nome }}"
+                 name="tag--{{ tag.nome }}"
+                 {% if tag.nome in tags_selecionadas %}checked{% endif %}
+                 hx-get="{% url 'partial-produtos' %}"
+                 hx-on::after-request="atualizaQueryString();"
+                 hx-include="#opcoes-filtragem"
+                 hx-target="#lista-de-produtos-container">
+          <label class="px-2 py-1 rounded text-sm cursor-pointer"
+                 style="--bg-color: {{ tag.cor_fundo }};
+                        --text-color: {{ tag.cor_texto }}"
+                 for="tag--{{ tag.nome }}">{{ tag.nome }}</label>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
   <div id="lista-de-produtos-container">{% include 'core/partials/lista-produtos.html' %}</div>
+  <style>
+    #opcoes-filtragem input[type="checkbox"] {
+      display: none;
+    }
+    #opcoes-filtragem input[type="checkbox"] + label {
+      background-color: #535353;
+      color: #aaa;
+    }
+    #opcoes-filtragem input[type="checkbox"]:checked + label {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+  </style>
 {% endblock content %}
