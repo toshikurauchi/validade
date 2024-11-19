@@ -1,6 +1,17 @@
 from django.shortcuts import get_object_or_404, render
 
-from core.models import Produto
+from core.models import Produto, Tag
+from core.view_utils import produtos_filtrados
+
+
+def lista_produtos(request):
+    produtos = produtos_filtrados(request)
+
+    return render(request, 'core/partials/lista-produtos.html', {
+        'current_page': 'produtos',
+        'produtos': produtos,
+        'tags': Tag.objects.all(),
+    })
 
 
 def produto_edit(request, produto_id):

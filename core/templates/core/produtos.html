@@ -2,6 +2,14 @@
 {% block content %}
   {% include 'core/partials/tag-scripts.html' %}
   {% include 'core/partials/tag-datalist.html' %}
-  <div class="pb-6 border-b">FILTRO</div>
-  {% include 'core/partials/lista-produtos.html' %}
+  <div class="pb-6 border-b">
+    <input type="search"
+           name="q"
+           id="busca"
+           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+           hx-trigger="keyup changed delay:500ms"
+           hx-get="{% url 'partial-produtos' %}"
+           hx-target="#lista-de-produtos-container">
+  </div>
+  <div id="lista-de-produtos-container">{% include 'core/partials/lista-produtos.html' %}</div>
 {% endblock content %}

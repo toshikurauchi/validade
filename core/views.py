@@ -2,10 +2,11 @@ from datetime import date
 from django.shortcuts import get_object_or_404, redirect, render
 
 from core.models import Produto, Tag
+from core.view_utils import produtos_filtrados
 
 
 def lista_produtos(request):
-    produtos = Produto.objects.filter(removido_em__isnull=True).order_by('validade')
+    produtos = produtos_filtrados(request)
 
     return render(request, 'core/produtos.html', {
         'current_page': 'produtos',
